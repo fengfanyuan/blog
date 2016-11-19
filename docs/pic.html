@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Document</title>
+        <style type="text/css">
+            body{
+                background:#000;
+            }
+            .back{
+                text-decoration: none;
+                color:#f00;
+                font-size:40px;
+            }
+            #banner{
+                position:relative;
+                width:1200px;
+                height:100px;
+                margin:200px auto;
+                cursor:pointer;
+                perspective:1000px;
+               -webkit-perspective:1000;
+               transform-style:preserve-3d;
+            }
+            #banner img{
+                position:absolute;
+                width:300px;
+                height:300px;
+                transition:all linear .5s; 
+            }
+            #banner img.left{
+                transform:rotateY(45deg) translateZ(-100px);
+            }
+            #banner img.right{
+                transform:rotateY(-45deg) translateZ(-100px);
+            }
+            #banner img.mid{
+                transform:translateZ(100px);
+            }
+        </style>
+    </head>
+    <body>
+        <a class="back" href="blog.html">back</a>
+        <div class="banner" id="banner">
+            <img src="images/1.jpg" />
+            <img src="images/2.jpg" />
+            <img src="images/3.jpg" />
+            <img src="images/4.jpg" />
+            <img src="images/5.jpg" />
+            <img src="images/6.jpg" />
+            <img src="images/7.jpg" />
+        </div>
+        <script type="text/javascript">
+            var banner=document.getElementById("banner");
+            var pic=banner.getElementsByTagName("img");
+            console.log(pic.length);
+
+            var mid_num=parseInt(pic.length/2);/*确定中间的图片*/
+
+            // 中间图片的位置，距左边的距离；parseInt是取整，offsetWidth是自身宽度
+            var mid_left=parseInt((banner.offsetWidth-pic[mid_num].offsetWidth)/2);            
+            
+
+            render(mid_num);/*调用函数*/
+            function render(mid_num){
+                // var mid_num=mnum;
+                for(var i=0;i<pic.length;i++){
+
+                    pic[i].style.left=mid_left-(mid_num-i)*80+"px";
+                    pic[i].index=i;
+
+                    if(i<mid_num){
+                        // 在class属性里加上一个属性值
+                        pic[i].setAttribute("class","left")
+                    }
+                    if(i>mid_num){
+                        pic[i].setAttribute("class","right")
+                    }
+                    if(i==mid_num){
+                        pic[i].setAttribute("class","mid")
+                    }
+
+                    pic[i].onclick=function(){
+                        render(this.index);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
